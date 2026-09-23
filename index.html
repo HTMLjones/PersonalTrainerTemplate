@@ -1,10 +1,296 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JonasFitness – Nå dit mål med en coach ved din side</title>
+    <meta name="description" content="Se resultaterne, beregn dit kalorie- og proteinbehov ud fra dit mål, og få svar på det du undrer dig over, før du går i gang.">
+    <meta name="theme-color" content="#16181D">
+
+    <!-- Skrifttyper: Fira Sans til overskrifter, Source Sans 3 til brødtekst -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Forhåndsindlæs loading-gif'en, så den er klar med det samme -->
+    <link rel="preload" as="image" href="https://cdn.shopify.com/s/files/1/0618/9462/3460/files/7hh1.gif?v=1741759210" fetchpriority="high">
+    <link rel="preload" as="image" href="https://gifdb.com/images/thumbnail/ronnie-coleman-bouncing-chest-ib3veqasufs9i3ra.gif" referrerpolicy="no-referrer">
+
+    <!-- Sikkerhedsnet: loading screen forsvinder altid efter ca. 6 sek., selv hvis en fil ikke bliver fundet -->
+    <style>
+        .loader { animation: loader-failsafe 0.6s ease 6s forwards; }
+        @keyframes loader-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+    </style>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Uden JavaScript skjules loading screen helt -->
+    <noscript><style>.loader{display:none!important}</style></noscript>
 </head>
+
 <body>
 
+<!-- ============ LOADING SCREEN (5 sekunder, styres i main.js) ============ -->
+<div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader__inner">
+        <!-- Gif 1 vises de første 3 sek., gif 2 tager over de sidste 2 sek. (styres i main.js) -->
+        <div class="loader__stage" id="loaderStage">
+            <img class="loader__gif" id="loaderGif"
+                 src="https://cdn.shopify.com/s/files/1/0618/9462/3460/files/7hh1.gif?v=1741759210"
+                 alt="" decoding="async">
+            <img class="loader__gif" id="loaderGif2"
+                 data-src="https://gifdb.com/images/thumbnail/ronnie-coleman-bouncing-chest-ib3veqasufs9i3ra.gif"
+                 alt="" decoding="async" referrerpolicy="no-referrer" hidden>
+        </div>
+        <p class="loader__brand">Jonas<span>Fitness</span></p>
+        <div class="loader__bar" aria-hidden="true"><span></span></div>
+        <p class="loader__tagline">Sammen bliver vi stærkere!</p>
+    </div>
+</div>
+
+<a class="skip-link" href="#main">Gå til indhold</a>
+
+<!-- ============ 1. HEADER: virksomhedsnavn + menu ============ -->
+<header class="site-header" id="top">
+    <div class="wrap header__row">
+        <a class="brand" href="#top">Jonas<span>Fitness</span></a>
+
+        <button class="menu-btn" id="menuBtn" type="button"
+                aria-expanded="false" aria-controls="siteNav" aria-label="Åbn menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <nav class="site-nav" id="siteNav" aria-label="Hovedmenu">
+        <ul class="wrap">
+            <li><a href="#resultater">Resultater</a></li>
+            <li><a href="#beregner">Beregn dit mål</a></li>
+            <li><a href="#historier">Kundehistorier</a></li>
+            <li><a href="#faq">Spørgsmål og svar</a></li>
+            <li><a href="#anmeldelser">Anmeldelser</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main id="main">
+
+    <!-- ============ 2. SAMMENLIGNINGSBILLEDER (før og efter) ============ -->
+    <section class="section section--light section--center" id="resultater" aria-labelledby="resultaterTitle">
+        <div class="wrap">
+            <h2 id="resultaterTitle">Se forskellen</h2>
+            <p class="lead">Samme person, samme sted. Kun tiden og træningen er ændret.</p>
+
+            <div class="compare">
+                <!-- Udskift .ph med: <img src="assets/foer.jpg" alt="Før" loading="lazy"> -->
+                <figure class="compare__item">
+                    <div class="ph"><span>Plads til billede</span></div>
+                    <figcaption>Før</figcaption>
+                </figure>
+                <figure class="compare__item">
+                    <div class="ph"><span>Plads til billede</span></div>
+                    <figcaption>Efter</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 3. BEREGNER ift. ønsket mål ============ -->
+    <section class="section section--dark calc" id="beregner" aria-labelledby="calcTitle">
+        <div class="wrap">
+            <div class="calc__panel" id="calc">
+
+                <!-- Trin 1: vælg mål -->
+                <div class="calc__step" data-step="goal">
+                    <h2 id="calcTitle">Hvad er din største drøm?</h2>
+                    <div class="goal-buttons">
+                        <button class="btn btn--primary" type="button" data-goal="loss">Vægttab</button>
+                        <button class="btn btn--primary" type="button" data-goal="muscle">Muskelopbygning</button>
+                    </div>
+                </div>
+
+                <!-- Trin 2: udfyld oplysninger -->
+                <form class="calc__step" data-step="form" hidden novalidate>
+                    <button class="link-back" type="button" data-back>Skift mål</button>
+                    <h3 class="calc__title" id="formTitle" tabindex="-1"></h3>
+
+                    <fieldset class="segmented">
+                        <legend>Køn (bruges i beregningsformlen)</legend>
+                        <label><input type="radio" name="sex" value="male" checked><span>Mand</span></label>
+                        <label><input type="radio" name="sex" value="female"><span>Kvinde</span></label>
+                    </fieldset>
+
+                    <div class="fields">
+                        <label class="field">
+                            <span>Alder (år)</span>
+                            <input type="number" name="age" inputmode="numeric" min="18" max="80" step="1" placeholder="35" required>
+                        </label>
+                        <label class="field">
+                            <span>Højde (cm)</span>
+                            <input type="number" name="height" inputmode="numeric" min="130" max="230" step="1" placeholder="178" required>
+                        </label>
+                        <label class="field">
+                            <span>Vægt (kg)</span>
+                            <input type="number" name="weight" inputmode="decimal" min="40" max="250" step="0.1" placeholder="85" required>
+                        </label>
+                        <label class="field">
+                            <span id="amountLabel">Mål (kg)</span>
+                            <input type="number" name="amount" inputmode="decimal" min="1" max="60" step="0.5" placeholder="10" required>
+                        </label>
+                        <label class="field field--wide">
+                            <span>Aktivitetsniveau</span>
+                            <select name="activity">
+                                <option value="1.2">Stillesiddende – kontorarbejde, lidt motion</option>
+                                <option value="1.375" selected>Let aktiv – træning 1–3 gange om ugen</option>
+                                <option value="1.55">Moderat aktiv – træning 3–5 gange om ugen</option>
+                                <option value="1.725">Meget aktiv – træning 6–7 gange om ugen</option>
+                            </select>
+                        </label>
+                        <label class="field field--wide">
+                            <span>Tempo</span>
+                            <select name="pace" id="paceSelect"></select>
+                        </label>
+                    </div>
+
+                    <p class="form-error" id="formError" role="alert" hidden></p>
+                    <button class="btn btn--primary btn--block" type="submit">Beregn min plan</button>
+                </form>
+
+                <!-- Trin 3: resultat -->
+                <div class="calc__step" data-step="result" hidden aria-live="polite">
+                    <h3 class="calc__title" id="resultTitle" tabindex="-1">Din plan</h3>
+
+                    <dl class="stats">
+                        <div class="stat stat--main"><dt>Kalorier om dagen</dt><dd id="resKcal"></dd></div>
+                        <div class="stat"><dt>Protein</dt><dd id="resProtein"></dd></div>
+                        <div class="stat"><dt>Fedt</dt><dd id="resFat"></dd></div>
+                        <div class="stat"><dt>Kulhydrat</dt><dd id="resCarbs"></dd></div>
+                        <div class="stat stat--wide"><dt id="resTimeLabel">Estimeret tid</dt><dd id="resTime"></dd></div>
+                    </dl>
+
+                    <p class="result-note" id="resNote"></p>
+                    <p class="disclaimer">
+                        Tallene er vejledende og bygger på en standardformel. Er du gravid, syg eller i behandling,
+                        så tal med din læge, før du ændrer kost og træning.
+                    </p>
+
+                    <div class="result-actions">
+                        <!-- Skift mailadressen til din egen -->
+                        <a class="btn btn--primary" href="mailto:info@jonasfitness.dk">Tal med en coach</a>
+                        <button class="btn btn--ghost" type="button" data-recalc>Ret oplysninger</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 4. MEDIEVIDEOER ============ -->
+    <section class="section section--light" id="historier" aria-labelledby="historierTitle">
+        <div class="wrap">
+            <h2 id="historierTitle">Kundehistorier</h2>
+            <p class="lead">Hør det fra dem, der har været igennem forløbet.</p>
+
+            <!--
+              Sådan tilføjer du en video:
+              data-video   = link til .mp4/.webm-fil
+              data-poster  = (valgfrit) forsidebillede
+            -->
+            <div class="videos">
+                <button class="video-card" type="button" data-video="" data-poster="">
+                    <span class="video-card__label">Tabte 12 kg på 5 måneder</span>
+                    <span class="video-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+                    <span class="video-card__soon" hidden>Videoen kommer snart</span>
+                </button>
+                <button class="video-card" type="button" data-video="" data-poster="">
+                    <span class="video-card__label">Fik styrke tilbage efter skade</span>
+                    <span class="video-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+                    <span class="video-card__soon" hidden>Videoen kommer snart</span>
+                </button>
+                <button class="video-card" type="button" data-video="" data-poster="">
+                    <span class="video-card__label">Tog 6 kg muskler på</span>
+                    <span class="video-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+                    <span class="video-card__soon" hidden>Videoen kommer snart</span>
+                </button>
+                <button class="video-card" type="button" data-video="" data-poster="">
+                    <span class="video-card__label">Fra sofaen til første løb</span>
+                    <span class="video-card__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+            </span>
+                    <span class="video-card__soon" hidden>Videoen kommer snart</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 5. FAQ ============ -->
+    <section class="section section--dark" id="faq" aria-labelledby="faqTitle">
+        <div class="wrap wrap--narrow">
+            <h2 id="faqTitle">Spørgsmål og svar</h2>
+
+            <div class="faq">
+                <details>
+                    <summary>Hvordan kommer jeg i gang?</summary>
+                    <p>Start med at beregne dit mål ovenfor. Derefter kontakter du os, så aftaler vi en samtale, hvor din coach lægger en plan sammen med dig.</p>
+                </details>
+                <details>
+                    <summary>Skal jeg have træningserfaring?</summary>
+                    <p>Nej. Planen tilpasses dit udgangspunkt, uanset om du har trænet i mange år eller aldrig har været i et fitnesscenter.</p>
+                </details>
+                <details>
+                    <summary>Hvor hurtigt kan jeg se resultater?</summary>
+                    <p>Det varierer fra person til person. De fleste mærker mere energi de første uger, mens synlige forandringer typisk kommer over flere måneder.</p>
+                </details>
+                <details>
+                    <summary>Kan jeg skifte coach?</summary>
+                    <p>Ja. Passer kemien ikke, kan du bede om en ny coach.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 6. TRUSTPILOT (sidst på siden, i baggrunden) ============ -->
+    <section class="section section--tp" id="anmeldelser" aria-labelledby="tpTitle">
+        <div class="wrap">
+            <h2 class="tp__title" id="tpTitle">Anmeldelser på Trustpilot</h2>
+
+            <!--
+              Her indsætter du dit rigtige TrustBox-widget fra Trustpilot Business.
+              Indtil da vises pladsholdere (slet .tp-grid, når widget'et er sat ind).
+            -->
+            <div class="tp-grid">
+                <article class="tp-card">
+                    <p class="tp-card__stars" aria-label="5 ud af 5 stjerner">★★★★★</p>
+                    <p>Her vises en anmeldelse fra din Trustpilot-profil.</p>
+                    <p class="tp-card__name">Kundenavn</p>
+                </article>
+                <article class="tp-card">
+                    <p class="tp-card__stars" aria-label="5 ud af 5 stjerner">★★★★★</p>
+                    <p>Her vises en anmeldelse fra din Trustpilot-profil.</p>
+                    <p class="tp-card__name">Kundenavn</p>
+                </article>
+                <article class="tp-card">
+                    <p class="tp-card__stars" aria-label="5 ud af 5 stjerner">★★★★★</p>
+                    <p>Her vises en anmeldelse fra din Trustpilot-profil.</p>
+                    <p class="tp-card__name">Kundenavn</p>
+                </article>
+                <article class="tp-card">
+                    <p class="tp-card__stars" aria-label="5 ud af 5 stjerner">★★★★★</p>
+                    <p>Her vises en anmeldelse fra din Trustpilot-profil.</p>
+                    <p class="tp-card__name">Kundenavn</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<script src="main.js" defer></script>
 </body>
 </html>
