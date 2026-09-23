@@ -3,7 +3,6 @@
    Palette 1: antracit + rød + lys grå
    Overskrifter: Fira Sans  |  Brødtekst: Source Sans 3
    ========================================================== */
-
 :root {
     /* Hovedfarver */
     --ink: #16181D;        /* antracit (primær) */
@@ -127,7 +126,6 @@ p { margin: 0; }
     display: grid;
     place-items: center;
     width: min(600px, 85vw);
-    height: var(--stage-h, auto);
     margin: 0 auto 20px;
 }
 
@@ -135,7 +133,6 @@ p { margin: 0; }
     grid-area: 1 / 1;
     width: 100%;
     height: auto;
-    max-height: min(50vh, var(--stage-h, 50vh));   /* der skal stadig være plads til teksten */
     object-fit: contain;
     opacity: 0;
     animation: gif-in 0.3s ease 1.6s forwards;   /* sikkerhedsnet, hvis main.js ikke kører */
@@ -329,7 +326,7 @@ p { margin: 0; }
     /* Læg dit eget billede i assets/beregner-baggrund.jpg. Mangler det, vises kun farven. */
     background:
             linear-gradient(180deg, rgba(22, 24, 29, 0.86), rgba(22, 24, 29, 0.95)),
-            url("assets/beregner-baggrund.jpg") center / cover no-repeat,
+            url/*("assets/beregner-baggrund.jpg")*/ center / cover no-repeat,
             var(--ink);
 }
 
@@ -551,7 +548,6 @@ fieldset.segmented legend { flex: 0 0 100%; }
     border-radius: var(--radius);
     background:
             linear-gradient(180deg, rgba(22, 24, 29, 0) 45%, rgba(22, 24, 29, 0.85) 100%),
-            var(--poster, none) center / cover no-repeat,
             linear-gradient(160deg, var(--ink-3), var(--ink));
 }
 .video-card:hover .video-card__play { background: var(--red-dark); }

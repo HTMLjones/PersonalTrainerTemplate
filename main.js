@@ -487,3 +487,13 @@
     var yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 })();
+
+/* LOGO SCROLL UP */
+document.querySelector('.brand').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});

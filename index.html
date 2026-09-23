@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JonasFitness – Nå dit mål med en coach ved din side</title>
+    <title>JonasFitness – ||—||</title>
     <meta name="description" content="Se resultaterne, beregn dit kalorie- og proteinbehov ud fra dit mål, og få svar på det du undrer dig over, før du går i gang.">
     <meta name="theme-color" content="#16181D">
 
@@ -24,9 +24,18 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    <link rel="icon" href="assets/favicon.ico" sizes="32x32">
-    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <script>
+        let blink = true;
+
+        setInterval(() => {
+            document.title = blink ? "JonasFitness – ||—||" : "Stærkere sammen! ||—||";
+            blink = !blink;
+        }, 1500);
+    </script>
 
     <!-- Uden JavaScript skjules loading screen helt -->
     <noscript><style>.loader{display:none!important}</style></noscript>
