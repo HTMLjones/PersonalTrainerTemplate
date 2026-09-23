@@ -10,8 +10,8 @@
     'use strict';
 
     /* ---------- 1. LOADING SCREEN ---------- */
-    var LOADER_MS = 5000;        // hvor længe loading screen vises i alt
-    var SECOND_GIF_MS = 1500;    // gif 2 vises de sidste 2 sek. (gif 1 vises de første 3 sek.)
+    var LOADER_MS = 3500;        // hvor længe loading screen vises i alt
+    var SECOND_GIF_MS = 1000;    // gif 2 vises de sidste 2 sek. (gif 1 vises de første 3 sek.)
     var FADE_MS = 1000;           // skal matche transition i styles.css
 
     // Baggrund til hver gif: [0] = gif 1, [1] = gif 2
