@@ -197,6 +197,55 @@
         </div>
     </section>
 
+    <!-- ============ NY SEKTION: SE DIN EGEN FORVANDLING (AI) ============
+     Indsættes i index.html lige EFTER </section> på "beregner"-sektionen
+     og lige FØR <!- 4. MEDIEVIDEOER --> -->
+    <section class="section section--light section--center" id="forvandling" aria-labelledby="forvandlingTitle">
+        <div class="wrap">
+            <h2 id="forvandlingTitle">Se din egen forventede forvandling!</h2>
+            <p class="lead">Upload et billede af dig selv, og se hvordan du kan komme til at se ud, hvis du følger din plan ovenfor.</p>
+
+            <div class="compare">
+                <!-- Venstre: upload -->
+                <figure class="compare__item">
+                    <label class="ph ph--slot ph--upload" for="photoInput">
+                        <span id="photoPrompt">Klik for at uploade dit billede<small class="ph__hint">JPG, PNG eller WebP</small></span>
+                        <img id="photoPreview" alt="Dit uploadede billede" hidden>
+                        <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp">
+                    </label>
+                    <figcaption>Dit billede</figcaption>
+                </figure>
+
+                <!-- Højre: AI-billede -->
+                <figure class="compare__item">
+                    <div class="ph ph--slot" id="aiSlot">
+                        <span id="aiPrompt">Dit AI-billede vises her</span>
+                        <img id="aiImage" alt="AI-genereret billede af hvordan du kan se ud efter din plan" hidden>
+                    </div>
+                    <figcaption id="aiCaption">Efter din plan</figcaption>
+                </figure>
+            </div>
+
+            <div class="ai-actions">
+                <label class="ai-consent">
+                    <input type="checkbox" id="aiConsent">
+                    <span>Billedet er af mig selv, og jeg accepterer, at det sendes til en ekstern AI-tjeneste for at lave resultatet. Siden gemmer ikke dit billede.</span>
+                </label>
+                <button class="btn btn--primary" type="button" id="aiBtn" disabled>Generér mit billede</button>
+                <p class="ai-status" id="aiStatus" role="status" aria-live="polite"></p>
+                <p class="ai-note">Billedet er en AI-illustration og ikke en garanti for resultatet. Det faktiske forløb afhænger af genetik, træning, kost og søvn.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ØVRIGE TILFØJELSER I index.html ============
+      1) Menupunkt: læg denne linje i <ul> i .site-nav, fx efter "Beregn dit mål":
+           <li><a href="#forvandling">Din forvandling</a></li>
+
+      2) Script: læg denne linje lige under <script src="main.js" defer></script>:
+           <script src="forvandling.js" defer></script>
+    -->
+
     <!-- ============ 4. MEDIEVIDEOER ============ -->
     <section class="section section--light" id="historier" aria-labelledby="historierTitle">
         <div class="wrap">
@@ -305,5 +354,6 @@
 
 
 <script src="main.js" defer></script>
+<script src="forvandling.js" defer></script>
 </body>
 </html>

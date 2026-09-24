@@ -497,3 +497,29 @@ document.querySelector('.brand').addEventListener('click', function (e) {
         behavior: 'smooth'
     });
 });
+
+/* ==========================================================
+   TILFØJELSE til main.js – kun disse linjer tilføjes, intet slettes.
+   Find beregner-formularens submit-handler ("// Beregn") og sæt blokken
+   lige EFTER linjen:   renderResult(result);
+   ========================================================== */
+
+document.dispatchEvent(new CustomEvent('jonasfitness:plan', {
+    detail: {
+        goal: currentGoal,                 // 'loss' eller 'muscle'
+        sex: values.sex,
+        age: values.age,
+        height: values.height,
+        weight: values.weight,
+        amount: values.amount,             // kg der skal tabes/tages på
+        weeks: Math.round(result.weeks)    // estimeret tid
+    }
+}));
+
+/* Det ser så sådan her ud i sammenhængen:
+
+            renderResult(result);
+            document.dispatchEvent(new CustomEvent('jonasfitness:plan', { ... }));
+            showStep('result');
+            resultTitle.focus();
+*/

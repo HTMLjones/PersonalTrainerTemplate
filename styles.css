@@ -738,3 +738,89 @@ fieldset.segmented legend { flex: 0 0 100%; }
     .menu-btn span,
     .video-card__play { transition: none; }
 }
+
+/* ==========================================================
+   TILFØJELSE til styles.css – læg nederst i filen
+   AI-forvandling (bruger de eksisterende .compare og .ph)
+   ========================================================== */
+.ph--slot { position: relative; overflow: hidden; }
+.ph--slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.ph--slot img[hidden] { display: none; }   /* reset'en sætter img til display:block */
+
+.ph--upload {
+    cursor: pointer;
+    border: 2px dashed var(--line-on-dark);
+    transition: border-color 0.2s ease;
+}
+.ph--upload:hover,
+.ph--upload:focus-within { border-color: var(--red); }
+.ph--upload input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.ph__hint {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted-on-dark);
+}
+
+.ph--busy > span { animation: ai-pulse 1.4s ease-in-out infinite; }
+@keyframes ai-pulse { 50% { opacity: 0.4; } }
+
+.ai-actions {
+    margin: 32px auto 0;
+    max-width: 560px;
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+}
+
+.ai-consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    text-align: left;
+    color: var(--muted-on-light);
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.ai-consent input {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--red);
+}
+
+.ai-status {
+    min-height: 1.6em;
+    font-weight: 600;
+}
+.ai-status.is-error { color: var(--red-dark); }
+
+.ai-note {
+    color: var(--muted-on-light);
+    font-size: 0.9rem;
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.btn:disabled:hover { background: var(--red); }
+
+@media (prefers-reduced-motion: reduce) {
+    .ph--busy > span { animation: none; }
+}
