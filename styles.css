@@ -825,6 +825,86 @@ fieldset.segmented legend { flex: 0 0 100%; }
     .ph--busy > span { animation: none; }
 }
 
+/* ==========================================================
+   TILFØJELSE til styles.css – ERSTATTER den forrige "YEAH BUDDY"-blok
+   (fra 7-yeah-buddy-bobble.css). Slet den gamle blok, og indsæt denne
+   i stedet nederst i styles.css. Rent CSS, intet i HTML/JS ændres.
+   ========================================================== */
+
+.brand {
+    position: relative;   /* gør .brand til referencepunkt for boblen */
+}
+
+/* Halen – peger op mod logoets højre hjørne.
+   Boksen bag pilen er større end selve den synlige trekant, og den
+   overlapper med boblen herunder, så musen aldrig rammer et "hul". */
+.brand::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 12px;
+    margin-top: -2px;                 /* let overlap med logoet: intet tomrum */
+    border: 9px solid transparent;
+    border-bottom-color: var(--red);  /* peger opad mod logoet */
+    pointer-events: auto;             /* hele boksen tæller med som hover-flade */
+    opacity: 0;
+    transform: scale(0.4);
+    transform-origin: top right;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 21;
+}
+
+/* Selve taleboblen – klassisk rundet form, poppet ud fra højre hjørne */
+.brand::after {
+    content: "YEAH BUDDY!";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 6px;                  /* mindre end halens boks: sikrer overlap, ikke hul */
+    padding: 12px 20px;
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    border-radius: 22px 6px 22px 22px;  /* skarpt hjørne foroven-til-højre, ved halen */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    pointer-events: auto;             /* boblen forbliver åben, når musen hviler på den */
+    opacity: 0;
+    transform: scale(0.15);
+    transform-origin: top right;      /* "trækker ud" fra det højre hjørne */
+    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 20;
+}
+
+/* Vis boblen ved hover over logoet ELLER over selve boblen/halen,
+   og ved tastaturfokus (tilgængelighed) */
+.brand:hover::after,
+.brand:focus-visible::after,
+.brand:has(:hover)::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* Mindre bevægelse for dem, der har bedt om det */
+@media (prefers-reduced-motion: reduce) {
+    .brand::after,
+    .brand::before {
+        transition: opacity 0.2s ease;
+        transform: scale(1);
+    }
+}
+
+/* ---------- Sådan ændrer du den ----------
+   Tekst:    skift "YEAH BUDDY!" i .brand::after sin "content".
+   Farve:    skift var(--red) i begge regler (boble-baggrund + border-bottom-color på halen).
+   Form:     juster border-radius på .brand::after for en anden bobleform.
+   Retning:  right/top styrer, at den kommer fra højre hjørne og popper nedad.
+*/
+
 /* WORK IN PROGRESS TAPE OVER AI BEFORE AFTER */
 
 #aiSlot {
