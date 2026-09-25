@@ -2,7 +2,10 @@
    JonasFitness – forvandling.js (ny fil, ligger ved siden af main.js)
    Upload af billede + AI-billede ud fra planen fra beregneren.
    ========================================================== */
+/*
+ NEDLUKNING AF AI, GRUNDET FEJL MED CLOUDFLARE
 (function () {
+
     'use strict';
 
     // Skift til adressen på din Worker (se 5-worker.js). ALDRIG en API-nøgle her.
@@ -48,7 +51,7 @@
         return 'ca. ' + Math.round(weeks / 4.345) + ' måneder';
     }
 
-    /* ---- Planen fra beregneren (main.js sender eventet) ---- */
+
     document.addEventListener('jonasfitness:plan', function (e) {
         plan = e.detail;
         aiCaption.textContent = 'Efter ' + formatDuration(plan.weeks);
@@ -58,7 +61,7 @@
         refresh();
     });
 
-    /* ---- Upload og nedskalering ---- */
+
     function resizeImage(file) {
         return new Promise(function (resolve, reject) {
             var url = URL.createObjectURL(file);
@@ -100,7 +103,6 @@
 
     consent.addEventListener('change', refresh);
 
-    /* ---- Generér ---- */
     btn.addEventListener('click', function () {
         if (busy || !plan || !photoBlob || !consent.checked) return;
 
@@ -147,4 +149,7 @@
     });
 
     refresh();
+
 })();
+
+ */
