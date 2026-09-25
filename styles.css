@@ -824,3 +824,42 @@ fieldset.segmented legend { flex: 0 0 100%; }
 @media (prefers-reduced-motion: reduce) {
     .ph--busy > span { animation: none; }
 }
+
+/* WORK IN PROGRESS TAPE OVER AI BEFORE AFTER */
+
+#aiSlot {
+    /* .ph--slot har allerede position: relative + overflow: hidden
+       fra tidligere tilføjelse, så tapen bliver klippet pænt af boksen. */
+}
+
+#aiSlot::before,
+#aiSlot::after {
+    content: "• UNDER OPBYGNING • UNDER OPBYGNING • UNDER OPBYGNING • UNDER OPBYGNING • UNDER OPBYGNING •";
+    position: absolute;
+    left: 50%;
+    width: 220%;
+    padding-block: 8px;
+    background: #FFC629;
+    color: var(--ink);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: clamp(0.6rem, 2.4vw, 0.95rem);
+    letter-spacing: 0.05em;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    border-block: 2px solid var(--ink);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    z-index: 2;          /* ligger over billedet, selv når det er tomt */
+    pointer-events: none;
+}
+
+#aiSlot::before {
+    top: 34%;
+    transform: translate(-50%, -50%) rotate(-11deg);
+}
+
+#aiSlot::after {
+    top: 66%;
+    transform: translate(-50%, -50%) rotate(9deg);
+}
